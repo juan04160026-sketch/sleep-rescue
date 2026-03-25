@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation';
 import { FlowExperience } from '@/components/flow/FlowExperience';
-import { isScenarioKey } from '@/lib/flows/scenarios';
+import { getScenarioMap, isScenarioKey } from '@/lib/flows/scenarios';
+
+export function generateStaticParams() {
+  return Object.keys(getScenarioMap('en')).map((scenario) => ({ scenario }));
+}
 
 export default async function ScenarioFlowPage({
   params,
