@@ -1,0 +1,214 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --bg: #05070b;
+  --bg-elevated: rgba(18, 20, 27, 0.84);
+  --bg-soft: rgba(11, 13, 18, 0.66);
+  --line: rgba(245, 235, 221, 0.1);
+  --line-strong: rgba(245, 235, 221, 0.18);
+  --text: #f2ebdd;
+  --muted: #b5ae9f;
+  --muted-strong: #8f897d;
+  --accent: #d9c39c;
+  --accent-cool: #8390ad;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(64% 42% at 50% 0%, rgba(123, 137, 177, 0.22), transparent 65%),
+    radial-gradient(28% 22% at 50% 14%, rgba(217, 195, 156, 0.08), transparent 100%),
+    linear-gradient(180deg, #05070b 0%, #090b10 42%, #040509 100%);
+  color: var(--text);
+  font-family: var(--font-body), "SF Pro Text", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: -2;
+  background:
+    radial-gradient(42% 32% at 14% 6%, rgba(96, 109, 145, 0.22), transparent 70%),
+    radial-gradient(35% 26% at 86% 10%, rgba(78, 89, 118, 0.18), transparent 70%),
+    radial-gradient(34% 22% at 50% 26%, rgba(214, 194, 157, 0.08), transparent 78%);
+}
+
+body::after {
+  z-index: -1;
+  background:
+    radial-gradient(circle at center, transparent 38%, rgba(0, 0, 0, 0.5) 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 180px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.008) 0 1px, transparent 1px 120px);
+  opacity: 0.3;
+}
+
+::selection {
+  background: rgba(217, 195, 156, 0.24);
+  color: #f8f1e6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  min-height: 100vh;
+  overflow: clip;
+  position: relative;
+}
+
+main,
+footer,
+header {
+  position: relative;
+  z-index: 1;
+}
+
+.display-type {
+  font-family: var(--font-display), Georgia, serif;
+  font-feature-settings: "liga" 1, "kern" 1;
+  letter-spacing: -0.045em;
+}
+
+.eyebrow {
+  color: var(--muted-strong);
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.panel-surface {
+  background:
+    linear-gradient(180deg, rgba(20, 22, 29, 0.9), rgba(10, 11, 16, 0.82)),
+    rgba(13, 15, 20, 0.8);
+  border: 1px solid var(--line);
+  box-shadow:
+    0 32px 100px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  position: relative;
+  backdrop-filter: blur(24px);
+}
+
+.panel-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+}
+
+.soft-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+}
+
+.breathing-halo {
+  position: absolute;
+  height: 18rem;
+  width: 18rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(217, 195, 156, 0.12);
+  background:
+    radial-gradient(circle, rgba(217, 195, 156, 0.09), rgba(128, 142, 176, 0.05) 46%, transparent 74%);
+  filter: blur(1px);
+}
+
+.breathing-orb {
+  height: 15rem;
+  width: 15rem;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 34% 32%, rgba(255, 255, 255, 0.5), rgba(224, 208, 178, 0.26) 22%, rgba(125, 139, 172, 0.24) 48%, rgba(22, 27, 42, 0.12) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 0 120px rgba(128, 143, 176, 0.16),
+    0 0 70px rgba(217, 195, 156, 0.09),
+    inset 0 -26px 46px rgba(0, 0, 0, 0.34);
+}
+
+.animate-breathe {
+  animation: breathe 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.animate-breathe-halo {
+  animation: breathe-halo 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.82;
+  }
+  35% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.97);
+    opacity: 0.92;
+  }
+}
+
+@keyframes breathe-halo {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.44;
+  }
+  35% {
+    transform: scale(1.12);
+    opacity: 0.78;
+  }
+  70% {
+    transform: scale(1.02);
+    opacity: 0.54;
+  }
+}
+
+@media (max-width: 640px) {
+  body::after {
+    opacity: 0.18;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.26em;
+  }
+
+  .breathing-halo {
+    height: 12.75rem;
+    width: 12.75rem;
+  }
+
+  .breathing-orb {
+    height: 10.5rem;
+    width: 10.5rem;
+  }
+}
