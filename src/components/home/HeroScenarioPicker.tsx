@@ -1,17 +1,55 @@
 'use client';
 
 import Link from 'next/link';
+import type { Route } from 'next';
+import { useEffect, useState } from 'react';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
 import { buttonStyles } from '@/components/shared/Button';
 import { getScenarioList, uiText } from '@/lib/i18n/messages';
 import { useLocale } from '@/lib/i18n/locale';
+import { loadLatestFlowDraft, loadPlan } from '@/lib/storage/session-plan';
+import type { ScenarioKey } from '@/types/flow';
 import { ScenarioCard } from './ScenarioCard';
+
+type ResumeState =
+  | {
+      kind: 'draft';
+      scenario: ScenarioKey;
+    }
+  | {
+      kind: 'plan';
+      scenario: ScenarioKey;
+    }
+  | null;
 
 export function HeroScenarioPicker() {
   const { locale } = useLocale();
   const t = uiText[locale].home;
   const scenarioList = getScenarioList(locale);
+  const [resumeState, setResumeState] = useState<ResumeState>(null);
+
+  useEffect(() => {
+    const plan = loadPlan();
+    const draft = loadLatestFlowDraft();
+
+    if (draft && (!plan || draft.updatedAt > (plan.updatedAt ?? 0))) {
+      setResumeState({ kind: 'draft', scenario: draft.scenario });
+      return;
+    }
+
+    if (plan) {
+      setResumeState({ kind: 'plan', scenario: plan.scenario });
+      return;
+    }
+
+    setResumeState(null);
+  }, []);
+
+  const resumeHref = resumeState ? (resumeState.kind === 'draft' ? `/flow/${resumeState.scenario}` : '/plan') : null;
+  const resumeTitle = resumeState ? (resumeState.kind === 'draft' ? t.resumeDraftTitle : t.resumePlanTitle) : null;
+  const resumeBody = resumeState ? (resumeState.kind === 'draft' ? t.resumeDraftBody : t.resumePlanBody) : null;
+  const resumeCta = resumeState ? (resumeState.kind === 'draft' ? t.resumeDraftCta : t.resumePlanCta) : null;
 
   return (
     <section className="overflow-hidden pb-14 pt-8 sm:pb-24 sm:pt-14">
@@ -25,6 +63,19 @@ export function HeroScenarioPicker() {
               <Link href="#scenarios" className={buttonStyles({ variant: 'solid', size: 'lg', className: 'w-full sm:w-auto' })}>{t.ctaStart}</Link>
               <Link href="/calm" className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}>{t.ctaCalm}</Link>
             </div>
+
+            {resumeState && resumeHref && resumeTitle && resumeBody && resumeCta ? (
+              <Card className="mt-6 p-5 sm:p-6">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                  <div className="max-w-xl">
+                    <div className="eyebrow">{t.resumeEyebrow}</div>
+                    <h2 className="display-type mt-4 text-[1.8rem] leading-[0.98] text-[#f4edde] sm:text-[2.1rem]">{resumeTitle}</h2>
+                    <p className="mt-3 text-sm leading-7 text-[#bdb5a8] sm:text-base">{resumeBody}</p>
+                  </div>
+                  <Link href={resumeHref as Route} className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}>{resumeCta}</Link>
+                </div>
+              </Card>
+            ) : null}
           </div>
 
           <Card className="overflow-hidden p-6 sm:p-8">
@@ -59,13 +110,43 @@ export function HeroScenarioPicker() {
           ))}
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
-          {t.reassurance.map((item) => (
-            <div key={item.title} className="border-t border-white/10 pt-4">
-              <div className="text-[0.72rem] uppercase tracking-[0.34em] text-[#8f897d]">{item.title}</div>
-              <p className="mt-3 text-sm leading-7 text-[#b5ae9f]">{item.text}</p>
-            </div>
+        <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-3">
+          {t.reassurance.map((item, index) => (
+            <Card key={item.title} className="p-5 sm:p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[0.7rem] font-medium uppercase tracking-[0.24em] text-[#d9c39c]">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+                <div className="eyebrow">Sleep Rescue</div>
+              </div>
+              <h3 className="display-type mt-5 text-[1.7rem] leading-[0.98] text-[#f4edde] sm:text-[1.95rem]">{item.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-[#bdb5a8] sm:text-base">{item.text}</p>
+            </Card>
           ))}
+        </div>
+
+        <div className="mt-14 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+          <Card className="p-6 sm:p-8">
+            <div className="eyebrow">{t.faqEyebrow}</div>
+            <h2 className="display-type mt-4 text-[clamp(2rem,7vw,3.7rem)] leading-[0.96] text-[#f4edde] sm:leading-none">{t.faqTitle}</h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[#c0bbaf]">{t.faqIntro}</p>
+          </Card>
+
+          <div className="space-y-4">
+            {t.faqItems.map((item, index) => (
+              <Card key={item.question} className="p-5 sm:p-6">
+                <div className="flex gap-4">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[0.7rem] font-medium uppercase tracking-[0.24em] text-[#d9c39c]">
+                    {String(index + 1).padStart(2, '0')}
+                  </div>
+                  <div>
+                    <h3 className="text-base font-medium text-[#f2ebdd] sm:text-lg">{item.question}</h3>
+                    <p className="mt-3 text-sm leading-7 text-[#bdb5a8] sm:text-base">{item.answer}</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
       </Container>
     </section>

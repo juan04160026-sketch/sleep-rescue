@@ -28,4 +28,12 @@ export type PlanResult = {
 export type PlanSession = {
   scenario: ScenarioKey;
   answers: FlowAnswers;
+  updatedAt?: number;
+};
+
+export type FlowDraft = {
+  scenario: ScenarioKey;
+  step: number;
+  answers: FlowAnswers;
+  updatedAt: number;
 };

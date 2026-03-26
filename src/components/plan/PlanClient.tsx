@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { buttonStyles } from '@/components/shared/Button';
+import { Button, buttonStyles } from '@/components/shared/Button';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
 import { buildPlan } from '@/lib/flows/plan-builder';
@@ -14,6 +14,7 @@ import { PlanSectionCard } from './PlanSectionCard';
 
 export function PlanClient() {
   const [session, setSession] = useState<PlanSession | null | undefined>(undefined);
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
   const { locale } = useLocale();
   const t = uiText[locale].plan;
 
@@ -25,6 +26,49 @@ export function PlanClient() {
     if (!session) return null;
     return buildPlan(locale, session.scenario, session.answers);
   }, [locale, session]);
+
+  const scenario = plan ? getScenarioMap(locale)[plan.scenario] : null;
+
+  const planText = useMemo(() => {
+    if (!plan || !scenario) return '';
+
+    const lines = [
+      `${t.copyHeading}: ${plan.headline}`,
+      '',
+      `${t.scenario}: ${scenario.shortTitle}`,
+      `${t.primaryAction}: ${plan.primaryAction.title}`,
+      `${t.summaryLabel}: ${plan.summary}`,
+      '',
+      ...plan.sections.flatMap((section) => [
+        `${section.title}`,
+        ...section.items.map((item, index) => `${index + 1}. ${item.label}`),
+        '',
+      ]),
+      `${t.stillAwake}:`,
+      ...plan.nextStepItems.map((item, index) => `${index + 1}. ${item}`),
+      '',
+      `${t.quietReminder}: ${plan.calmPrompt}`,
+    ];
+
+    return lines.join('\n').trim();
+  }, [plan, scenario, t.copyHeading, t.primaryAction, t.quietReminder, t.scenario, t.stillAwake, t.summaryLabel]);
+
+  useEffect(() => {
+    if (copyState === 'idle') return;
+    const timer = window.setTimeout(() => setCopyState('idle'), 2200);
+    return () => window.clearTimeout(timer);
+  }, [copyState]);
+
+  async function handleCopy() {
+    if (!planText) return;
+
+    try {
+      await navigator.clipboard.writeText(planText);
+      setCopyState('copied');
+    } catch {
+      setCopyState('failed');
+    }
+  }
 
   if (session === undefined) {
     return (
@@ -39,7 +83,7 @@ export function PlanClient() {
     );
   }
 
-  if (!session || !plan) {
+  if (!session || !plan || !scenario) {
     return (
       <section className="py-16">
         <Container className="max-w-3xl">
@@ -56,8 +100,6 @@ export function PlanClient() {
       </section>
     );
   }
-
-  const scenario = getScenarioMap(locale)[plan.scenario];
 
   return (
     <section className="py-10 sm:py-14">
@@ -87,6 +129,10 @@ export function PlanClient() {
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <Link href={plan.primaryAction.href} className={buttonStyles({ variant: 'solid', size: 'lg', className: 'w-full sm:w-auto' })}>{t.calm}</Link>
                   <Link href={`/flow/${plan.scenario}`} className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}>{t.rerun}</Link>
+                  <Button onClick={handleCopy} variant="ghost" size="lg" className="w-full sm:w-auto">{t.copyPlan}</Button>
+                </div>
+                <div className="mt-3 text-sm text-[#9f9788]">
+                  {copyState === 'copied' ? t.copySuccess : copyState === 'failed' ? t.copyFailed : t.copyHint}
                 </div>
               </div>
             </Card>
@@ -112,7 +158,20 @@ export function PlanClient() {
               </ul>
             </Card>
 
-            <Card className="p-6 sm:p-7"><div className="eyebrow">{t.quietReminder}</div><p className="display-type mt-4 text-[2rem] leading-none text-[#efe6d7]">{plan.calmPrompt}</p></Card>
+            <Card className="p-6 sm:p-7">
+              <div className="eyebrow">{t.quietReminder}</div>
+              <p className="display-type mt-4 text-[2rem] leading-none text-[#efe6d7]">{plan.calmPrompt}</p>
+            </Card>
+
+            <Card className="p-6 sm:p-7">
+              <div className="eyebrow">{t.nextMovesEyebrow}</div>
+              <div className="mt-4 flex flex-col gap-3">
+                <Link href="/calm" className={buttonStyles({ variant: 'solid', size: 'lg', className: 'w-full' })}>{t.calm}</Link>
+                <Link href={`/flow/${plan.scenario}`} className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full' })}>{t.rerun}</Link>
+                <Link href="/" className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full' })}>{t.goHome}</Link>
+              </div>
+            </Card>
+
             <div className="rounded-[28px] border border-white/8 bg-black/10 p-6 text-sm leading-7 text-[#a8a091]">{t.reminderBody}</div>
           </div>
         </div>

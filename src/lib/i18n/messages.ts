@@ -1226,6 +1226,34 @@ const uiBase = {
       },
     ],
     scenarioCta: 'Open protocol',
+    resumeEyebrow: 'Pick up where you left off',
+    resumePlanTitle: 'Your last plan is still here.',
+    resumePlanBody: 'Jump back into the latest sleep protocol instead of starting from scratch.',
+    resumePlanCta: 'Open last plan',
+    resumeDraftTitle: 'Your in-progress check-in is saved.',
+    resumeDraftBody: 'Continue the last question flow from where you stopped.',
+    resumeDraftCta: 'Continue flow',
+    faqEyebrow: 'Sleep questions, answered quietly',
+    faqTitle: 'A few useful answers before the night gets louder.',
+    faqIntro: 'These are the practical questions people usually have when they are tired, overstimulated, or deciding what to do next.',
+    faqItems: [
+      {
+        question: 'Is Sleep Rescue medical advice?',
+        answer: 'No. It is a low-stimulation decision tool for rough nights, not diagnosis, treatment, or emergency support.',
+      },
+      {
+        question: 'What if I still cannot sleep after using it?',
+        answer: 'That is exactly why the plans include a fallback step and a “still awake” section. The goal is not perfection. It is to stop the night from escalating.',
+      },
+      {
+        question: 'Do I need an account or app download?',
+        answer: 'No. The product is designed to work quickly in the browser with no account wall and no setup before you can use it.',
+      },
+      {
+        question: 'Which scenario should I choose if more than one feels true?',
+        answer: 'Choose the one that matches the current moment best. The product is intentionally built around the next decision, not a perfect explanation of your sleep.',
+      },
+    ],
   },
   flow: {
     approach: 'Approach',
@@ -1241,6 +1269,9 @@ const uiBase = {
     question: 'Question',
     helperDefault: 'Move quickly. The goal is a calmer next step, not a perfect explanation.',
     helperReset: 'Keep this boring, stable, and repeatable.',
+    resumedDraft: 'Your last answers were restored so you can keep going without restarting the night.',
+    resetProgress: 'Start this flow over',
+    backToPlan: 'Back to plan',
     quietNotes: {
       'fall-asleep': [
         'Choose the closest fit and keep moving. No answer needs to be exact.',
@@ -1271,6 +1302,13 @@ const uiBase = {
     rerun: 'Run the questions again',
     stillAwake: 'If sleep is still resisting',
     quietReminder: 'Quiet reminder',
+    summaryLabel: 'Summary',
+    copyHeading: 'Tonight’s plan',
+    copyPlan: 'Copy plan',
+    copyHint: 'Copy this plan to notes, chat, or wherever you will actually look at it tonight.',
+    copySuccess: 'Plan copied.',
+    copyFailed: 'Could not copy automatically. Try again on a secure browser session.',
+    nextMovesEyebrow: 'Next moves',
     reminderBody: 'Keep the plan small. The goal is to lower friction and protect the night, not build a whole new sleep system at 2am.',
   },
   calm: {
@@ -1294,7 +1332,14 @@ const uiBase = {
     exhale: 'Exhale for 6',
     pause: 'Pause the rhythm',
     begin: 'Begin the rhythm',
+    restart: 'Start again',
     backToPlan: 'Back to plan',
+    home: 'Go home',
+    completeEyebrow: 'Finished',
+    completeTitle: 'Nice. Let the next move stay gentle.',
+    completeBody: 'You do not need to solve the whole night from here. Go back to your plan and follow the smallest next step.',
+    completePrimaryCta: 'Return to tonight’s plan',
+    completeNote: 'The breathing set is done. Keep the next step simple and low-stimulation.',
     guidance: [
       {
         title: 'If frustration rises',
@@ -1375,6 +1420,34 @@ export const uiText: Record<Locale, UiCopy> = {
         },
       ],
       scenarioCta: '进入方案',
+      resumeEyebrow: '继续上次进度',
+      resumePlanTitle: '上次生成的方案还在。',
+      resumePlanBody: '不用重头开始，可以直接回到你上次的睡眠方案。',
+      resumePlanCta: '打开上次方案',
+      resumeDraftTitle: '上次做到一半的流程已保存。',
+      resumeDraftBody: '可以直接从上次停下来的问题继续。',
+      resumeDraftCta: '继续答题流程',
+      faqEyebrow: '睡眠常见问题',
+      faqTitle: '在夜晚变得更吵之前，先把几个关键问题说清楚。',
+      faqIntro: '这些是人在疲惫、过载、又必须决定下一步时，最常会冒出来的几个问题。',
+      faqItems: [
+        {
+          question: 'Sleep Rescue 是医疗建议吗？',
+          answer: '不是。它是给糟糕夜晚用的低刺激决策工具，不是诊断、治疗，也不能替代紧急支持。',
+        },
+        {
+          question: '如果用了之后还是睡不着怎么办？',
+          answer: '这正是为什么方案里会包含兜底动作和“如果还是不顺”部分。目标不是一次完美睡着，而是别让夜晚继续升级。',
+        },
+        {
+          question: '需要注册账号或下载 App 吗？',
+          answer: '不需要。产品就是为了让你在浏览器里尽快用起来，不设账号墙，也不要求提前配置。',
+        },
+        {
+          question: '如果几个场景都像，我该选哪个？',
+          answer: '选最符合“此刻”的那个就行。产品关注的是你接下来该做什么，而不是把睡眠问题解释得绝对完整。',
+        },
+      ],
     },
     flow: {
       ...uiBase.flow,
@@ -1391,6 +1464,9 @@ export const uiText: Record<Locale, UiCopy> = {
       question: '问题',
       helperDefault: '尽量快一点。目标是找到更 calm 的下一步，不是找到完美解释。',
       helperReset: '让它保持无聊、稳定、可重复。',
+      resumedDraft: '已帮你恢复上次的答案，可以直接接着走，不用重新开始整个夜晚。',
+      resetProgress: '重新开始这条流程',
+      backToPlan: '回到方案页',
       quietNotes: {
         'fall-asleep': [
           '选最接近的就继续往下走，不需要每一题都答得特别准。',
@@ -1422,6 +1498,13 @@ export const uiText: Record<Locale, UiCopy> = {
       rerun: '重新跑一遍问题',
       stillAwake: '如果还是不顺',
       quietReminder: '提醒',
+      summaryLabel: '摘要',
+      copyHeading: '今晚方案',
+      copyPlan: '复制方案',
+      copyHint: '可以把方案复制到备忘录、聊天窗口，或任何你今晚真的会看的地方。',
+      copySuccess: '方案已复制。',
+      copyFailed: '自动复制失败了，请在安全浏览器环境里再试一次。',
+      nextMovesEyebrow: '下一步',
       reminderBody: '方案尽量保持小一点。目标是降低摩擦、保护夜晚，而不是在 2am 建一套完整睡眠系统。',
     },
     calm: {
@@ -1446,7 +1529,14 @@ export const uiText: Record<Locale, UiCopy> = {
       exhale: '呼气 6 拍',
       pause: '暂停节奏',
       begin: '开始节奏',
+      restart: '重新开始',
       backToPlan: '回到方案页',
+      home: '回首页',
+      completeEyebrow: '已完成',
+      completeTitle: '很好，下一步继续保持轻一点。',
+      completeBody: '你现在不需要把整晚都解决掉，只要回到方案页，跟着最小的下一步走。',
+      completePrimaryCta: '回到今晚方案',
+      completeNote: '这一轮呼吸已经完成。接下来继续保持简单、低刺激。',
       guidance: [
         {
           title: '如果挫败感上来',
@@ -1724,6 +1814,230 @@ const infoPageContent: Record<InfoPageKind, Record<InfoLocale, InfoPageContent>>
     },
   },
 };
+
+
+type ScenarioSeoLocale = 'en' | 'zh';
+
+type ScenarioSeoContent = {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  sections: Array<{
+    title: string;
+    body: string[];
+  }>;
+  faq: Array<{
+    question: string;
+    answer: string;
+  }>;
+};
+
+const scenarioSeoLocaleFallback: Record<Locale, ScenarioSeoLocale> = {
+  en: 'en',
+  zh: 'zh',
+  ja: 'en',
+  es: 'en',
+  th: 'en',
+  hi: 'en',
+  ko: 'en',
+};
+
+const scenarioSeoContent: Record<ScenarioSeoLocale, Record<ScenarioKey, ScenarioSeoContent>> = {
+  en: {
+    'fall-asleep': {
+      eyebrow: 'For nights when you cannot fall asleep',
+      title: 'A shorter route for “I can’t fall asleep” moments.',
+      intro: 'This path is designed for the familiar late-night state where you are tired, but sleep is not arriving. Instead of adding more stimulation, it narrows the moment into a few questions and one calmer next move.',
+      sections: [
+        {
+          title: 'What this path helps with',
+          body: [
+            'It is useful when your mind is racing, your body feels restless, or the pressure to fall asleep is making the bed feel worse.',
+            'The goal is not to produce the perfect sleep hack. The goal is to interrupt escalation and reduce the amount of decision-making happening at bedtime.',
+          ],
+        },
+        {
+          title: 'Why the questions stay short',
+          body: [
+            'At bedtime, too much input often becomes its own problem. That is why the flow stays brief and focuses only on what changes the next step.',
+            'Once the plan is built, you get a primary action, a fallback, and a way to protect tomorrow morning instead of spiraling into sleep math.',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: 'What if I have already been trying to sleep for a long time?',
+          answer: 'The path still works. In that case it leans harder toward reducing pressure and may suggest a short low-light reset instead of staying stuck in bed.',
+        },
+        {
+          question: 'Can this help if my mind will not stop racing?',
+          answer: 'Yes. That is one of the main states the route is designed for. The plan tries to give the brain one simpler task instead of more things to solve.',
+        },
+      ],
+    },
+    'wake-at-night': {
+      eyebrow: 'For waking up in the middle of the night',
+      title: 'A gentler way back when you wake up and cannot return to sleep.',
+      intro: 'This path is built for middle-of-the-night wakeups, especially when a quick glance at the phone or the clock starts turning a brief wakeup into a fully alert night.',
+      sections: [
+        {
+          title: 'What this path is trying to prevent',
+          body: [
+            'The first goal is to stop the wake-up from getting louder. That means lower stimulation, less clock-checking, and fewer abrupt switches between tactics.',
+            'It is a practical route for common wakeups triggered by stress, noise, physical discomfort, or that frustrating “no idea why I am awake” feeling.',
+          ],
+        },
+        {
+          title: 'How the plan stays useful at 3am',
+          body: [
+            'The flow avoids over-explaining. Instead, it builds a small plan for the next few minutes, plus a fallback if you are getting more alert instead of sleepier.',
+            'It also helps protect the morning anchor so a single rough wakeup does not wreck the next day and the next night together.',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: 'Should I stay in bed no matter what?',
+          answer: 'Not always. If the bed is turning into a frustration zone and you are becoming more alert, a short dim reset can be better than fighting the mattress.',
+        },
+        {
+          question: 'What if I already checked my phone or the time?',
+          answer: 'That is common, and the plan still helps. The next step is simply to lower stimulation again instead of compounding it.',
+        },
+      ],
+    },
+    'reset-schedule': {
+      eyebrow: 'For rebuilding a broken sleep schedule',
+      title: 'A realistic sleep schedule reset built around one anchor.',
+      intro: 'This route is for the stretch where bedtime is drifting, wake times are unstable, or weekends have pulled the whole sleep schedule sideways. It focuses on a simple reset you can repeat for a few days.',
+      sections: [
+        {
+          title: 'What makes this different from generic sleep tips',
+          body: [
+            'Most schedule advice becomes useless because it asks for perfection all at once. This path is narrower: pick a wake anchor, reduce drift, and keep the rules small enough to repeat.',
+            'It is built for people who need a practical reset after late nights, inconsistent mornings, or a second-wind evening pattern that keeps repeating.',
+          ],
+        },
+        {
+          title: 'What the plan gives you',
+          body: [
+            'Instead of one vague recommendation, the route gives a tonight section, a near-term reset, and a next-few-days structure that reinforces the same anchor.',
+            'That makes it easier to rebuild rhythm without turning the reset itself into another exhausting project.',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: 'Do I need to fix bedtime first?',
+          answer: 'Usually no. This path is intentionally built around the wake anchor first, because that is often the more stable lever when the schedule is drifting.',
+        },
+        {
+          question: 'Can this help after weekends or travel throw things off?',
+          answer: 'Yes. It is useful anytime your timing has drifted and you need a calmer way to rebuild consistency over the next few days.',
+        },
+      ],
+    },
+  },
+  zh: {
+    'fall-asleep': {
+      eyebrow: '适合“就是睡不着”的夜晚',
+      title: '给“我就是睡不着”这一刻的更短路径。',
+      intro: '这条路径专门处理一种很常见的夜晚状态：身体已经累了，但睡意迟迟落不下来。它不会继续往夜里塞更多刺激，而是把问题收束成几个关键判断和一个更安静的下一步。',
+      sections: [
+        {
+          title: '这条路径主要在处理什么',
+          body: [
+            '当你脑子停不下来、身体有点躁、或者“必须马上睡着”的压力反而让床变得更难待下去时，这条路径就比较合适。',
+            '它不是为了给你一个完美睡眠秘诀，而是为了先打断升级，把睡前决策负担降下来。',
+          ],
+        },
+        {
+          title: '为什么问题会故意保持很短',
+          body: [
+            '睡前输入太多，本身就可能变成新问题。所以流程只保留会影响下一步动作的那几项。',
+            '做完之后，你拿到的是主动作、兜底动作，以及明早怎么尽量保护节律，而不是继续陷入“还能睡几个小时”的计算。',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: '如果我已经躺了很久还没睡着，这条路径还有用吗？',
+          answer: '有用。这种情况下方案会更偏向先减压，必要时会提示你做一个短暂的低光重置，而不是继续在床上硬耗。',
+        },
+        {
+          question: '如果是脑子停不下来，它能帮上忙吗？',
+          answer: '可以。这正是这条路径重点处理的状态之一。核心不是再给大脑更多事情，而是给它一个更简单、更单一的跟随对象。',
+        },
+      ],
+    },
+    'wake-at-night': {
+      eyebrow: '适合“半夜醒了回不去”的夜晚',
+      title: '当你半夜醒来又回不去睡眠时，一条更轻的回路。',
+      intro: '这条路径适合夜里醒来后，原本只是短暂清醒，却因为看了时间、刷了手机、或者开始焦虑，慢慢变成整晚越来越清醒的情况。',
+      sections: [
+        {
+          title: '它最想阻止的是什么',
+          body: [
+            '第一目标是别让这次夜醒继续放大：减少刺激，不再算时间，也不要不停切换方法。',
+            '无论是因为压力、噪音、身体不适，还是“也不知道为什么突然醒了”，这条路径都更关注接下来怎么收住局面。',
+          ],
+        },
+        {
+          title: '为什么它适合 3am 使用',
+          body: [
+            '流程不会要求你在半夜做很多解释，而是直接给出接下来几分钟怎么做，以及如果越来越清醒该怎么兜底。',
+            '它还会顺手保护第二天早晨的锚点，避免一次夜醒把第二天和下一晚一起拖乱。',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: '是不是无论如何都应该继续躺在床上？',
+          answer: '不一定。如果床已经变成挫败现场、你也越来越清醒，短暂去昏暗环境里重置一下，往往比继续硬撑更好。',
+        },
+        {
+          question: '如果我已经看过手机或时间了，还有必要继续吗？',
+          answer: '有必要。这很常见，方案仍然有效。关键是下一步把刺激重新降下来，而不是继续叠加。',
+        },
+      ],
+    },
+    'reset-schedule': {
+      eyebrow: '适合重建作息锚点',
+      title: '围绕一个锚点，做一个现实可执行的作息重置。',
+      intro: '这条路径适合入睡时间不断后移、起床时间忽前忽后，或者周末把整周作息拉歪之后，想用一个可重复的方式慢慢拉回节律的人。',
+      sections: [
+        {
+          title: '它和泛泛睡眠建议有什么不同',
+          body: [
+            '很多作息建议之所以没法执行，是因为它要求你一次性做到完美。这条路径更窄：先选一个起床锚点，再减少漂移，把规则缩小到能连续做几天。',
+            '它更适合那些晚睡、晚起、夜里第二阵精神反复出现的人，而不是给一个空泛的“早点睡”口号。',
+          ],
+        },
+        {
+          title: '最后你会拿到什么',
+          body: [
+            '你不会只得到一句模糊建议，而是会拿到今晚怎么做、接下来几天怎么守锚点、以及如何减少继续漂移的结构。',
+            '这样作息重置本身就不会变成另一个难以坚持的大工程。',
+          ],
+        },
+      ],
+      faq: [
+        {
+          question: '是不是应该先把入睡时间修好？',
+          answer: '通常不是。这条路径故意优先围绕起床锚点，因为当作息已经漂了，起床时间往往是更稳的抓手。',
+        },
+        {
+          question: '周末、出差、节奏打乱之后也适合用吗？',
+          answer: '适合。只要你的节律出现漂移，需要用更温和的方式在接下来几天里重建一致性，这条路径就有用。',
+        },
+      ],
+    },
+  },
+};
+
+export function getScenarioSeoContent(locale: Locale, scenario: ScenarioKey) {
+  return scenarioSeoContent[scenarioSeoLocaleFallback[locale]][scenario];
+}
 
 export function getScenarioMap(locale: Locale) {
   return scenarioValues[locale];

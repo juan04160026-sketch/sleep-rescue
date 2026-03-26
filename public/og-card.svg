@@ -1,0 +1,41 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="160" y1="20" x2="1040" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1018"/>
+      <stop offset="1" stop-color="#05070B"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(840 120) rotate(137.091) scale(380 296)">
+      <stop stop-color="#6E7FA6" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#6E7FA6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(420 188) rotate(90) scale(270 360)">
+      <stop stop-color="#D9C39C" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#D9C39C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" rx="36" fill="url(#bg)"/>
+  <rect width="1200" height="630" rx="36" fill="url(#glowA)"/>
+  <rect width="1200" height="630" rx="36" fill="url(#glowB)"/>
+
+  <rect x="104" y="88" width="992" height="454" rx="34" fill="#0F131A" fill-opacity="0.72" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <rect x="104.5" y="88.5" width="991" height="453" rx="33.5" stroke="#FFFFFF" stroke-opacity="0.04"/>
+
+  <circle cx="896" cy="315" r="118" fill="#111827" fill-opacity="0.2" stroke="#D9C39C" stroke-opacity="0.18"/>
+  <circle cx="896" cy="315" r="92" fill="url(#glowB)"/>
+  <circle cx="896" cy="315" r="68" fill="url(#glowA)" fill-opacity="0.7"/>
+
+  <text x="164" y="160" fill="#8F897D" font-family="Inter, Arial, sans-serif" font-size="22" letter-spacing="7.92">SLEEP RESCUE</text>
+  <text x="164" y="278" fill="#F4EDDE" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="600">When sleep breaks,</text>
+  <text x="164" y="360" fill="#F4EDDE" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="600">make the next step quieter.</text>
+  <text x="164" y="430" fill="#C0BBAF" font-family="Inter, Arial, sans-serif" font-size="30">A calm nighttime decision tool for rough nights, wakeups, and schedule resets.</text>
+
+  <rect x="164" y="470" width="214" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.03" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="190" y="499" fill="#D9C39C" font-family="Inter, Arial, sans-serif" font-size="22" letter-spacing="1.2">Low stimulation UI</text>
+
+  <rect x="396" y="470" width="178" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.03" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="421" y="499" fill="#D9C39C" font-family="Inter, Arial, sans-serif" font-size="22" letter-spacing="1.2">Short protocols</text>
+
+  <rect x="592" y="470" width="190" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.03" stroke="#FFFFFF" stroke-opacity="0.08"/>
+  <text x="617" y="499" fill="#D9C39C" font-family="Inter, Arial, sans-serif" font-size="22" letter-spacing="1.2">Guided calm mode</text>
+</svg>
