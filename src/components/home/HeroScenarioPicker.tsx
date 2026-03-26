@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
 import { buttonStyles } from '@/components/shared/Button';
+import { trackEvent } from '@/lib/analytics/gtag';
 import { getScenarioList, uiText } from '@/lib/i18n/messages';
 import { useLocale } from '@/lib/i18n/locale';
 import { loadLatestFlowDraft, loadPlan } from '@/lib/storage/session-plan';
@@ -60,8 +61,20 @@ export function HeroScenarioPicker() {
             <h1 className="display-type mt-5 text-[clamp(2.65rem,10vw,6.25rem)] leading-[0.94] text-[#f4edde] sm:mt-6 sm:leading-[0.92]">{t.title}</h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-[#c0bbaf] sm:mt-6 sm:text-lg sm:leading-8">{t.intro}</p>
             <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
-              <Link href="#scenarios" className={buttonStyles({ variant: 'solid', size: 'lg', className: 'w-full sm:w-auto' })}>{t.ctaStart}</Link>
-              <Link href="/calm" className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}>{t.ctaCalm}</Link>
+              <Link
+                href="#scenarios"
+                onClick={() => trackEvent('home_cta_click', { cta_name: 'start_scenario', target: 'scenarios' })}
+                className={buttonStyles({ variant: 'solid', size: 'lg', className: 'w-full sm:w-auto' })}
+              >
+                {t.ctaStart}
+              </Link>
+              <Link
+                href="/calm"
+                onClick={() => trackEvent('home_cta_click', { cta_name: 'calm', target: '/calm' })}
+                className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}
+              >
+                {t.ctaCalm}
+              </Link>
             </div>
 
             {resumeState && resumeHref && resumeTitle && resumeBody && resumeCta ? (
@@ -72,7 +85,19 @@ export function HeroScenarioPicker() {
                     <h2 className="display-type mt-4 text-[1.8rem] leading-[0.98] text-[#f4edde] sm:text-[2.1rem]">{resumeTitle}</h2>
                     <p className="mt-3 text-sm leading-7 text-[#bdb5a8] sm:text-base">{resumeBody}</p>
                   </div>
-                  <Link href={resumeHref as Route} className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}>{resumeCta}</Link>
+                  <Link
+                    href={resumeHref as Route}
+                    onClick={() =>
+                      trackEvent('home_cta_click', {
+                        cta_name: resumeState.kind === 'draft' ? 'resume_draft' : 'resume_plan',
+                        scenario: resumeState.scenario,
+                        target: resumeHref,
+                      })
+                    }
+                    className={buttonStyles({ variant: 'ghost', size: 'lg', className: 'w-full sm:w-auto' })}
+                  >
+                    {resumeCta}
+                  </Link>
                 </div>
               </Card>
             ) : null}

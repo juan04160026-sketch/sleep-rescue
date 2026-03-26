@@ -8,6 +8,7 @@ import { LocaleProvider } from '@/lib/i18n/locale';
 
 const bodyFont = Manrope({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
 const displayFont = Newsreader({ subsets: ['latin'], variable: '--font-display', display: 'swap', weight: ['400', '500', '600', '700'] });
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sleep-rescue.pages.dev'),
@@ -41,6 +42,11 @@ export const metadata: Metadata = {
     description: 'A calm nighttime decision tool with multilingual support for rough nights, wakeups, and schedule resets.',
     images: ['/og-card.svg'],
   },
+  verification: googleSiteVerification
+    ? {
+        google: googleSiteVerification,
+      }
+    : undefined,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

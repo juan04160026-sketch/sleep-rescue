@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Button, buttonStyles } from '@/components/shared/Button';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
+import { trackEvent } from '@/lib/analytics/gtag';
 import { buildPlan } from '@/lib/flows/plan-builder';
 import { getScenarioMap, uiText } from '@/lib/i18n/messages';
 import { useLocale } from '@/lib/i18n/locale';
@@ -60,13 +61,15 @@ export function PlanClient() {
   }, [copyState]);
 
   async function handleCopy() {
-    if (!planText) return;
+    if (!planText || !session) return;
 
     try {
       await navigator.clipboard.writeText(planText);
       setCopyState('copied');
+      trackEvent('plan_copy', { scenario: session.scenario, status: 'success' });
     } catch {
       setCopyState('failed');
+      trackEvent('plan_copy', { scenario: session.scenario, status: 'failed' });
     }
   }
 

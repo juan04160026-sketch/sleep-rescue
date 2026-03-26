@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, buttonStyles } from '@/components/shared/Button';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
+import { trackEvent } from '@/lib/analytics/gtag';
 import { cn } from '@/lib/utils/cn';
 import { useLocale } from '@/lib/i18n/locale';
 import { uiText } from '@/lib/i18n/messages';
@@ -26,6 +27,7 @@ export function CalmClient() {
   const [running, setRunning] = useState(false);
   const [remainingMs, setRemainingMs] = useState<number>(120_000);
   const [elapsedMs, setElapsedMs] = useState<number>(0);
+  const completionTrackedRef = useRef(false);
   const { locale } = useLocale();
   const t = uiText[locale].calm;
 
@@ -74,7 +76,14 @@ export function CalmClient() {
     return () => window.cancelAnimationFrame(frameId);
   }, [durationMs, running]);
 
+  useEffect(() => {
+    if (!sessionComplete || completionTrackedRef.current) return;
+    completionTrackedRef.current = true;
+    trackEvent('calm_session_complete', { duration_seconds: seconds });
+  }, [seconds, sessionComplete]);
+
   function resetSession(nextSeconds: number) {
+    completionTrackedRef.current = false;
     setRunning(false);
     setSeconds(nextSeconds);
     setElapsedMs(0);
@@ -87,9 +96,19 @@ export function CalmClient() {
       return;
     }
 
+    const isFreshStart = remainingMs === durationMs || remainingMs === 0;
+
     if (remainingMs === 0) {
       setElapsedMs(0);
       setRemainingMs(durationMs);
+    }
+
+    if (isFreshStart) {
+      completionTrackedRef.current = false;
+      trackEvent('calm_session_start', {
+        duration_seconds: seconds,
+        start_type: remainingMs === 0 ? 'restart' : 'start',
+      });
     }
 
     setRunning(true);

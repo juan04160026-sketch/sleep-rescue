@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Button, buttonStyles } from '@/components/shared/Button';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
+import { trackEvent } from '@/lib/analytics/gtag';
 import { getQuestions, getScenarioMap, getScenarioSeoContent, uiText } from '@/lib/i18n/messages';
 import { useLocale } from '@/lib/i18n/locale';
 import { clearFlowDraft, loadFlowDraft, loadPlan, saveFlowDraft, savePlan } from '@/lib/storage/session-plan';
@@ -68,10 +69,30 @@ export function FlowExperience({ scenario }: { scenario: ScenarioKey }) {
   const helperCopy = useMemo(() => (scenario === 'reset-schedule' ? text.helperReset : text.helperDefault), [scenario, text.helperDefault, text.helperReset]);
   const quietNotes = text.quietNotes[scenario];
 
+  function handleAnswerSelect(value: string) {
+    if (!currentQuestion) return;
+
+    if (currentValue !== value) {
+      trackEvent('flow_answer_select', {
+        scenario,
+        question_id: currentQuestion.id,
+        answer_value: value,
+        step_number: step + 1,
+      });
+    }
+
+    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }));
+  }
+
   function handleNext() {
     if (!currentQuestion || !currentValue) return;
     const nextAnswers = { ...answers, [currentQuestion.id]: currentValue };
     if (step === questions.length - 1) {
+      trackEvent('flow_complete', {
+        scenario,
+        answer_count: Object.keys(nextAnswers).length,
+        question_count: questions.length,
+      });
       clearFlowDraft(scenario);
       savePlan({ scenario, answers: nextAnswers });
       router.push('/plan' as Route);
@@ -140,7 +161,7 @@ export function FlowExperience({ scenario }: { scenario: ScenarioKey }) {
 
           <div className="order-1 space-y-4 sm:order-2">
             <Card className="p-5 sm:p-8 lg:p-10">
-              <QuestionCard question={currentQuestion} value={currentValue} onSelect={(value) => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }))} step={step} total={questions.length} questionLabel={text.question} />
+              <QuestionCard question={currentQuestion} value={currentValue} onSelect={handleAnswerSelect} step={step} total={questions.length} questionLabel={text.question} />
               <div className="mt-8 flex flex-col gap-3 border-t border-white/8 pt-5 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:pt-6">
                 <button type="button" onClick={() => setStep((value) => Math.max(0, value - 1))} className={buttonStyles({ variant: 'ghost' })} disabled={step === 0}>{text.back}</button>
                 <div className="text-sm text-[#8f897d]">{ready ? text.selectionSaved : text.chooseClosest}</div>

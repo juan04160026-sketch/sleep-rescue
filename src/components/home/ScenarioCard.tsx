@@ -1,10 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 import { Card } from '@/components/shared/Card';
+import { trackEvent } from '@/lib/analytics/gtag';
 import type { ScenarioMeta } from '@/types/flow';
 
 export function ScenarioCard({ scenario, index, ctaLabel }: { scenario: ScenarioMeta; index: number; ctaLabel: string }) {
   return (
-    <Link href={`/flow/${scenario.key}`} className="group block h-full">
+    <Link
+      href={`/flow/${scenario.key}`}
+      onClick={() => trackEvent('scenario_card_open', { scenario: scenario.key, position: index + 1 })}
+      className="group block h-full"
+    >
       <Card className="p-5 transition duration-300 hover:-translate-y-0.5 hover:border-white/16 sm:p-7">
         <div className="grid gap-5 lg:grid-cols-[84px_minmax(0,1fr)_220px] lg:items-center">
           <div className="text-[0.72rem] uppercase tracking-[0.34em] text-[#8f897d]">{String(index + 1).padStart(2, '0')}</div>
