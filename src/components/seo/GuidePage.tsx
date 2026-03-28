@@ -3,9 +3,10 @@ import type { Route } from 'next';
 import { Card } from '@/components/shared/Card';
 import { Container } from '@/components/shared/Container';
 import { buttonStyles } from '@/components/shared/Button';
-import type { Guide } from '@/lib/seo/guides';
+import { getGuides, type Guide } from '@/lib/seo/guides';
 
 export function GuidePage({ guide }: { guide: Guide }) {
+  const relatedGuides = getGuides().filter((item) => item.slug !== guide.slug);
   return (
     <section className="py-10 sm:py-14">
       <Container className="max-w-6xl">
@@ -37,6 +38,18 @@ export function GuidePage({ guide }: { guide: Guide }) {
                   </div>
                 </section>
               ))}
+
+              <section className="border-t border-white/8 pt-8">
+                <div className="eyebrow">Common search questions</div>
+                <div className="mt-6 space-y-8">
+                  {guide.searchQuestions.map((item) => (
+                    <article key={item.question}>
+                      <h2 className="text-xl font-medium text-[#f2ebdd] sm:text-2xl">{item.question}</h2>
+                      <p className="mt-3 text-base leading-8 text-[#cbc4b8]">{item.answer}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
             </div>
           </Card>
 
@@ -71,6 +84,21 @@ export function GuidePage({ guide }: { guide: Guide }) {
                 </Card>
               ))}
             </div>
+
+            <Card className="p-6 sm:p-7">
+              <div className="eyebrow">Related guides</div>
+              <div className="mt-5 space-y-4">
+                {relatedGuides.map((item) => (
+                  <div key={item.slug} className="border-t border-white/8 pt-4 first:border-t-0 first:pt-0">
+                    <h2 className="text-base font-medium text-[#f2ebdd] sm:text-lg">{item.title}</h2>
+                    <p className="mt-2 text-sm leading-7 text-[#bdb5a8]">{item.description}</p>
+                    <Link href={item.path as Route} className={buttonStyles({ variant: 'ghost', className: 'mt-3 w-full sm:w-auto' })}>
+                      Open related guide
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </div>
         </div>
       </Container>

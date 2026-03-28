@@ -10,6 +10,11 @@ export type GuideFaq = {
   answer: string;
 };
 
+export type GuideQuestionBlock = {
+  question: string;
+  answer: string;
+};
+
 export type Guide = {
   slug: GuideSlug;
   path: string;
@@ -21,6 +26,7 @@ export type Guide = {
   quickSummaryTitle: string;
   quickSummary: string[];
   sections: GuideSection[];
+  searchQuestions: GuideQuestionBlock[];
   faq: GuideFaq[];
   cta: {
     href: string;
@@ -70,6 +76,23 @@ const guides: Record<GuideSlug, Guide> = {
         ],
       },
     ],
+    searchQuestions: [
+      {
+        question: "Why am I tired but can't fall asleep?",
+        answer:
+          'That often happens when the body is tired but the brain is still being held in a more alert state by stress, stimulation, timing drift, caffeine, or too much pressure around sleep itself.',
+      },
+      {
+        question: 'What should I do if I cannot fall asleep after 30 minutes?',
+        answer:
+          'Usually the best next move is to reduce stimulation and stop escalating. If the bed starts to feel like a frustration zone, a short low-light reset can work better than continuing to force it.',
+      },
+      {
+        question: 'Should I stay in bed if I cannot fall asleep?',
+        answer:
+          'Not always. Staying in bed only helps if the bed still feels calm. If it starts to feel like a place where you fight with sleep, a brief reset outside the bed may be more useful.',
+      },
+    ],
     faq: [
       {
         question: 'What if I have already been trying to sleep for over an hour?',
@@ -80,6 +103,11 @@ const guides: Record<GuideSlug, Guide> = {
         question: 'Should I keep reading more sleep tips?',
         answer:
           'Usually no. At bedtime, more input can become more stimulation. Pick one quiet next step and follow it instead of opening five more tabs.',
+      },
+      {
+        question: 'Does checking the clock make it worse?',
+        answer:
+          'For a lot of people, yes. Time-checking often turns a sleepy problem into a pressure problem, which can make falling asleep harder instead of easier.',
       },
     ],
     cta: {
@@ -128,6 +156,23 @@ const guides: Record<GuideSlug, Guide> = {
         ],
       },
     ],
+    searchQuestions: [
+      {
+        question: "How do I go back to sleep after waking up at 3am?",
+        answer:
+          'Treat the next few minutes as a stimulation problem first. Lower light, stop checking the time, avoid the phone, and give your body one quieter task instead of several new inputs.',
+      },
+      {
+        question: "Why can't I go back to sleep after waking up in the night?",
+        answer:
+          'Once you wake, alertness can rise fast if stress, discomfort, light, or scrolling pile on. The body often needs less stimulation, not more effort, to settle again.',
+      },
+      {
+        question: 'Should I get out of bed if I wake up and cannot fall back asleep?',
+        answer:
+          'Sometimes yes. If staying in bed is making you more frustrated and more awake, a short reset in dim light can be better than forcing the issue in the same place.',
+      },
+    ],
     faq: [
       {
         question: 'What if I already looked at my phone?',
@@ -138,6 +183,11 @@ const guides: Record<GuideSlug, Guide> = {
         question: 'Should I stay in bed no matter what?',
         answer:
           'Not always. If you are getting more awake and more irritated, a short dim reset can be better than fighting the mattress.',
+      },
+      {
+        question: 'Is waking up once in the night always a problem?',
+        answer:
+          'Not necessarily. The bigger issue is often what happens next. A quiet wake-up can stay small, but a stimulated wake-up can become a much rougher night.',
       },
     ],
     cta: {
@@ -186,6 +236,23 @@ const guides: Record<GuideSlug, Guide> = {
         ],
       },
     ],
+    searchQuestions: [
+      {
+        question: 'How do I reset my sleep schedule fast?',
+        answer:
+          'The fastest sustainable route is usually not dramatic. Pick one wake-up anchor, protect it for several days, and reduce the habits that keep pushing the schedule later.',
+      },
+      {
+        question: 'Why is my sleep schedule suddenly broken?',
+        answer:
+          'Sleep schedules often break through accumulation: a few late nights, sleeping in to recover, irregular weekends, or a repeated second-wind pattern in the evening.',
+      },
+      {
+        question: 'Can I fix a broken sleep schedule in one night?',
+        answer:
+          'Usually no. Most schedules respond better to repetition than to a one-night correction. A smaller reset that lasts several days is more realistic and more effective.',
+      },
+    ],
     faq: [
       {
         question: 'Do I need to fix bedtime first?',
@@ -196,6 +263,11 @@ const guides: Record<GuideSlug, Guide> = {
         question: 'Can I just sleep in to catch up?',
         answer:
           'Sometimes extra rest feels good in the moment, but repeated sleep-ins can keep the schedule drifting. Consistency usually matters more during a reset.',
+      },
+      {
+        question: 'Do naps make a schedule reset harder?',
+        answer:
+          'They can. Large or late naps may reduce sleep pressure at night and make it harder for the body to re-lock onto a steadier rhythm.',
       },
     ],
     cta: {
@@ -211,4 +283,8 @@ export const guidePaths = Object.values(guides).map((guide) => guide.path);
 
 export function getGuide(slug: GuideSlug) {
   return guides[slug];
+}
+
+export function getGuides() {
+  return Object.values(guides);
 }

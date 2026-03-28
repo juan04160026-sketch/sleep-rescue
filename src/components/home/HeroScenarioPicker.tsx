@@ -34,6 +34,13 @@ export function HeroScenarioPicker() {
     getGuide('how-to-go-back-to-sleep'),
     getGuide('how-to-reset-sleep-schedule'),
   ];
+  const searchQuestionLinks = guideCards.flatMap((guide) =>
+    guide.searchQuestions.slice(0, 2).map((item) => ({
+      question: item.question,
+      path: guide.path,
+      guide: guide.slug,
+    })),
+  );
   const guideCopy =
     locale === 'zh'
       ? {
@@ -47,6 +54,18 @@ export function HeroScenarioPicker() {
           title: 'Start with a clearer, search-style answer.',
           intro: 'If someone lands from search, a direct guide often converts better before asking them to enter the interactive tool.',
           cta: 'Read guide',
+        };
+  const searchBlockCopy =
+    locale === 'zh'
+      ? {
+          eyebrow: '常见搜索问题',
+          title: '把用户真会搜的问题，直接摆到首页。',
+          intro: '这层不是为了讲品牌，而是为了更直接承接搜索意图，让首页多一层可索引、可点击、可继续深入的文字入口。',
+        }
+      : {
+          eyebrow: 'Common search questions',
+          title: 'Put the real search questions directly on the homepage.',
+          intro: 'This layer is here to catch search intent more directly: question-shaped copy, indexable text, and one-click paths into the right guide.',
         };
   const [resumeState, setResumeState] = useState<ResumeState>(null);
 
@@ -180,6 +199,39 @@ export function HeroScenarioPicker() {
                     <Link
                       href={guide.path as Route}
                       onClick={() => trackEvent('home_guide_open', { guide: guide.slug, position: index + 1, target: guide.path })}
+                      className={buttonStyles({ variant: 'ghost', className: 'w-full sm:w-auto' })}
+                    >
+                      {guideCopy.cta}
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+          <Card className="p-6 sm:p-8">
+            <div className="eyebrow">{searchBlockCopy.eyebrow}</div>
+            <h2 className="display-type mt-4 text-[clamp(2rem,7vw,3.7rem)] leading-[0.96] text-[#f4edde] sm:leading-none">{searchBlockCopy.title}</h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[#c0bbaf]">{searchBlockCopy.intro}</p>
+          </Card>
+
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
+            {searchQuestionLinks.map((item, index) => (
+              <Card key={`${item.guide}-${item.question}`} className="p-5 sm:p-6">
+                <div className="flex h-full flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[0.7rem] font-medium uppercase tracking-[0.24em] text-[#d9c39c]">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <div className="eyebrow">Search intent</div>
+                  </div>
+                  <h3 className="text-base font-medium text-[#f2ebdd] sm:text-lg">{item.question}</h3>
+                  <div className="mt-auto">
+                    <Link
+                      href={item.path as Route}
+                      onClick={() => trackEvent('home_search_question_open', { guide: item.guide, position: index + 1, target: item.path })}
                       className={buttonStyles({ variant: 'ghost', className: 'w-full sm:w-auto' })}
                     >
                       {guideCopy.cta}
