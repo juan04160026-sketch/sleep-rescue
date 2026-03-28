@@ -48,6 +48,15 @@ export function FlowExperience({ scenario }: { scenario: ScenarioKey }) {
   useEffect(() => {
     if (!hydrated) return;
 
+    trackEvent('flow_start', {
+      scenario,
+      source: restored ? 'restored_draft' : 'fresh',
+    });
+  }, [hydrated, restored, scenario]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
     const hasProgress = Object.keys(answers).length > 0 || step > 0;
     if (!hasProgress) {
       clearFlowDraft(scenario);

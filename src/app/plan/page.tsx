@@ -4,6 +4,10 @@ import { PlanClient } from '@/components/plan/PlanClient';
 export const metadata: Metadata = {
   title: 'Tonight’s plan',
   description: 'Review your personalized sleep rescue plan with primary action, next steps, and tomorrow guidance.',
+  robots: {
+    index: false,
+    follow: false,
+  },
   alternates: {
     canonical: 'https://sleep-rescue.pages.dev/plan',
   },

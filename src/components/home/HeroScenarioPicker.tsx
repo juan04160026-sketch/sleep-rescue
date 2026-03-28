@@ -9,6 +9,7 @@ import { buttonStyles } from '@/components/shared/Button';
 import { trackEvent } from '@/lib/analytics/gtag';
 import { getScenarioList, uiText } from '@/lib/i18n/messages';
 import { useLocale } from '@/lib/i18n/locale';
+import { getGuide } from '@/lib/seo/guides';
 import { loadLatestFlowDraft, loadPlan } from '@/lib/storage/session-plan';
 import type { ScenarioKey } from '@/types/flow';
 import { ScenarioCard } from './ScenarioCard';
@@ -28,6 +29,25 @@ export function HeroScenarioPicker() {
   const { locale } = useLocale();
   const t = uiText[locale].home;
   const scenarioList = getScenarioList(locale);
+  const guideCards = [
+    getGuide('how-to-fall-asleep'),
+    getGuide('how-to-go-back-to-sleep'),
+    getGuide('how-to-reset-sleep-schedule'),
+  ];
+  const guideCopy =
+    locale === 'zh'
+      ? {
+          eyebrow: '睡眠指南',
+          title: '先给搜索用户一个更直接的答案。',
+          intro: '如果用户是从 Google 这类搜索进来的，先看一页直给的解法，再进入交互式工具，通常更容易承接。',
+          cta: '阅读指南',
+        }
+      : {
+          eyebrow: 'Sleep guides',
+          title: 'Start with a clearer, search-style answer.',
+          intro: 'If someone lands from search, a direct guide often converts better before asking them to enter the interactive tool.',
+          cta: 'Read guide',
+        };
   const [resumeState, setResumeState] = useState<ResumeState>(null);
 
   useEffect(() => {
@@ -133,6 +153,42 @@ export function HeroScenarioPicker() {
           {scenarioList.map((scenario, index) => (
             <ScenarioCard key={scenario.key} scenario={scenario} index={index} ctaLabel={t.scenarioCta} />
           ))}
+        </div>
+
+        <div className="mt-10 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+          <Card className="p-6 sm:p-8">
+            <div className="eyebrow">{guideCopy.eyebrow}</div>
+            <h2 className="display-type mt-4 text-[clamp(2rem,7vw,3.7rem)] leading-[0.96] text-[#f4edde] sm:leading-none">{guideCopy.title}</h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[#c0bbaf]">{guideCopy.intro}</p>
+          </Card>
+
+          <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-1">
+            {guideCards.map((guide, index) => (
+              <Card key={guide.slug} className="p-5 sm:p-6">
+                <div className="flex h-full flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-[0.7rem] font-medium uppercase tracking-[0.24em] text-[#d9c39c]">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <div className="eyebrow">Sleep Guide</div>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-medium text-[#f2ebdd] sm:text-lg">{guide.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-[#bdb5a8] sm:text-base">{guide.description}</p>
+                  </div>
+                  <div className="mt-auto pt-1">
+                    <Link
+                      href={guide.path as Route}
+                      onClick={() => trackEvent('home_guide_open', { guide: guide.slug, position: index + 1, target: guide.path })}
+                      className={buttonStyles({ variant: 'ghost', className: 'w-full sm:w-auto' })}
+                    >
+                      {guideCopy.cta}
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
 
         <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-3">

@@ -13,7 +13,7 @@ export function HomeStructuredData() {
     name: 'Sleep Rescue',
     url: baseUrl,
     description:
-      'A calm nighttime decision tool for rough nights, wakeups, and sleep schedule resets.',
+      "Can't fall asleep, woke up at night, or need to reset your sleep schedule? Sleep Rescue gives a calm step-by-step plan for rough nights.",
     inLanguage: 'en',
   };
 

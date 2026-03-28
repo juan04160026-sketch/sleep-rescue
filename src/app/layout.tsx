@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { Manrope, Newsreader } from 'next/font/google';
+import { Suspense } from 'react';
 import './globals.css';
 import { Footer } from '@/components/shared/Footer';
 import { SiteHeader } from '@/components/shared/SiteHeader';
 import { GoogleAnalytics } from '@/components/shared/GoogleAnalytics';
+import { PageViewTracker } from '@/components/shared/PageViewTracker';
 import { LocaleProvider } from '@/lib/i18n/locale';
 
 const bodyFont = Manrope({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
@@ -16,14 +18,14 @@ export const metadata: Metadata = {
     default: 'Sleep Rescue',
     template: '%s | Sleep Rescue',
   },
-  description: 'A calm nighttime decision tool with multilingual support for rough nights, wakeups, and schedule resets.',
+  description: 'Can’t fall asleep, woke up at night, or need to reset your sleep schedule? Sleep Rescue gives a calm step-by-step plan for rough nights.',
   keywords: ['sleep help', 'sleep rescue', 'cant sleep', 'woke up at night', 'sleep schedule reset', 'breathing tool'],
   alternates: {
     canonical: 'https://sleep-rescue.pages.dev',
   },
   openGraph: {
     title: 'Sleep Rescue',
-    description: 'A calm nighttime decision tool with multilingual support for rough nights, wakeups, and schedule resets.',
+    description: 'Can’t fall asleep, woke up at night, or need to reset your sleep schedule? Sleep Rescue gives a calm step-by-step plan for rough nights.',
     url: 'https://sleep-rescue.pages.dev',
     siteName: 'Sleep Rescue',
     type: 'website',
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sleep Rescue',
-    description: 'A calm nighttime decision tool with multilingual support for rough nights, wakeups, and schedule resets.',
+    description: 'Can’t fall asleep, woke up at night, or need to reset your sleep schedule? Sleep Rescue gives a calm step-by-step plan for rough nights.',
     images: ['/og-card.svg'],
   },
   verification: googleSiteVerification
@@ -55,6 +57,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <LocaleProvider>
           <GoogleAnalytics />
+          <Suspense fallback={null}>
+            <PageViewTracker />
+          </Suspense>
           <div className="page-shell">
             <SiteHeader />
             <main>{children}</main>

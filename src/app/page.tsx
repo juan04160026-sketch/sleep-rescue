@@ -3,19 +3,22 @@ import { HeroScenarioPicker } from '@/components/home/HeroScenarioPicker';
 import { HomeStructuredData } from '@/components/home/HomeStructuredData';
 
 export const metadata: Metadata = {
-  title: 'Sleep help for rough nights',
-  description: 'Choose the closest sleep problem, answer a few focused questions, and get a calm plan for tonight.',
+  title: "Can't sleep tonight? Calm sleep help for rough nights",
+  description:
+    "Can't fall asleep, woke up at night, or need to reset your sleep schedule? Choose the closest problem and get a calm plan for tonight.",
   alternates: {
     canonical: 'https://sleep-rescue.pages.dev',
   },
   openGraph: {
-    title: 'Sleep help for rough nights',
-    description: 'Choose the closest sleep problem, answer a few focused questions, and get a calm plan for tonight.',
+    title: "Can't sleep tonight? Calm sleep help for rough nights",
+    description:
+      "Can't fall asleep, woke up at night, or need to reset your sleep schedule? Choose the closest problem and get a calm plan for tonight.",
     url: 'https://sleep-rescue.pages.dev',
   },
   twitter: {
-    title: 'Sleep help for rough nights',
-    description: 'Choose the closest sleep problem, answer a few focused questions, and get a calm plan for tonight.',
+    title: "Can't sleep tonight? Calm sleep help for rough nights",
+    description:
+      "Can't fall asleep, woke up at night, or need to reset your sleep schedule? Choose the closest problem and get a calm plan for tonight.",
   },
 };
 
